@@ -19,17 +19,18 @@
 
 def portfolio_cost(filename):
     total_cost = 0
-    
-    f = open(filename, 'rt')
-    # Skipp headers
-    headers = next(f).split(',')
-    for line in f:
-        row = line.split(',')
-        # remember index start at 0
-        # strip for delete \n characters. 
-        total_cost = total_cost + ( int(row[1]) * float(row[2].strip()) )
-    f.close()    
+    with open(filename, 'rt') as file:
+        for line in file:
+            try:
+                row = line.split(',')
+                # remember index start at 0
+                # strip for delete \n characters. 
+                total_cost = total_cost + ( int(row[1]) * float(row[2].strip()) )
+            except:
+                # if line can not be parsed we continue the loop
+                continue
     return total_cost
 
 cost = portfolio_cost('Data/portfolio.csv')
+
 print(f'Total amount: {cost}$')   
